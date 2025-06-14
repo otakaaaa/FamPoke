@@ -28,8 +28,10 @@ import { spotSchema, steps } from './constants'
 import { StepContent } from './StepContent'
 import { SuccessModal } from './SuccessModal'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useTranslations } from 'next-intl'
 
 export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialogProps) {
+  const t = useTranslations('AddSpot')
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const queryClient = useQueryClient()
@@ -152,7 +154,7 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
       if (err.errors) {
         setError(err.errors[0].message)
       } else {
-        setError(err.message || '施設の追加に失敗しました')
+        setError(err.message || t('addError'))
       }
     },
     onSettled: () => setLoading(false)
@@ -223,7 +225,7 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 700, fontSize: { xs: '1.1rem', md: '1.25rem' } }}>
-                新しい施設を追加
+                {t('title')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {steps[activeStep].description}
@@ -310,7 +312,7 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
               fontWeight: 600,
             }}
           >
-            {activeStep === 0 ? 'キャンセル' : '戻る'}
+            {activeStep === 0 ? t('cancel') : t('back')}
           </Button>
 
           <Box sx={{ flex: 1 }} />
@@ -329,7 +331,7 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
                 fontWeight: 600,
               }}
             >
-              次へ
+              {t('next')}
             </Button>
           ) : (
             <Button
@@ -353,7 +355,7 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
                 },
               }}
             >
-              {loading ? '投稿中...' : '投稿完了'}
+              {loading ? t('posting') : t('complete')}
             </Button>
           )}
         </DialogActions>
@@ -363,8 +365,8 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
       <SuccessModal
         open={successModalOpen}
         onClose={() => setSuccessModalOpen(false)}
-        title="投稿完了！"
-        message="施設を投稿しました。管理者の承認後に表示されます。ご協力ありがとうございました！"
+        title={t('successTitle')}
+        message={t('successMessage')}
       />
     </>
   )

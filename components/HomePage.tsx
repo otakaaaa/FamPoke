@@ -18,6 +18,7 @@ import {
 } from '@mui/material'
 import { Search, TrendingUp, LocationOn, Star } from '@mui/icons-material'
 import { useAtom } from 'jotai'
+import { useTranslations } from 'next-intl'
 import Layout from '@/components/Layout'
 import SpotCard from '@/components/SpotCard'
 import SpotCardSkeleton from '@/components/SpotCardSkeleton'
@@ -29,6 +30,7 @@ import { Spot, mockSpots } from '@/lib/mockData'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function HomePage() {
+  const t = useTranslations('Home')
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
@@ -104,7 +106,7 @@ export default function HomePage() {
 
   return (
     <Layout
-      title="子育てスポット検索"
+      title={t('title')}
       showAddButton
       showFilterButton
       onAddClick={() => setAddDialogOpen(true)}
@@ -127,9 +129,9 @@ export default function HomePage() {
                 px: { xs: 1, sm: 0 },
               }}
             >
-              最高の子育てスポットを
+              {t('heroTitle1')}
               <br />
-              見つけよう
+              {t('heroTitle2')}
             </Typography>
             <Typography
               variant="h6"
@@ -143,9 +145,7 @@ export default function HomePage() {
                 px: { xs: 2, sm: 0 },
               }}
             >
-              授乳室、おむつ替えスペース、キッズエリアなど、
-              {!isMobile && <br />}
-              子育てに必要な設備が整った施設を簡単に検索できます
+              {t('heroDescription')}
             </Typography>
           </Box>
         </Fade>
@@ -177,7 +177,7 @@ export default function HomePage() {
                   {mockSpots.length}+
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                  登録施設数
+                  {t('statsRegistered')}
                 </Typography>
               </Paper>
             </Grid>
@@ -205,7 +205,7 @@ export default function HomePage() {
                   4.8
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                  平均評価
+                  {t('statsRating')}
                 </Typography>
               </Paper>
             </Grid>
@@ -233,7 +233,7 @@ export default function HomePage() {
                   1000+
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                  月間利用者数
+                  {t('statsUsers')}
                 </Typography>
               </Paper>
             </Grid>
@@ -245,7 +245,7 @@ export default function HomePage() {
           <Box sx={{ mb: { xs: 3, md: 4 } }}>
             <TextField
               fullWidth
-              placeholder="施設名や住所で検索..."
+              placeholder={t('searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               InputProps={{
@@ -301,7 +301,7 @@ export default function HomePage() {
                 fontSize: { xs: '0.875rem', md: '1rem' },
               }}
             >
-              施設の取得に失敗しました
+              {t('fetchError')}
             </Alert>
           </Fade>
         )}
@@ -345,22 +345,22 @@ export default function HomePage() {
               >
                 <Search sx={{ fontSize: { xs: 32, md: 48 }, color: '#667eea', opacity: 0.7 }} />
               </Box>
-              <Typography variant="h5" sx={{ 
-                mb: 2, 
-                fontWeight: 600, 
+              <Typography variant="h5" sx={{
+                mb: 2,
+                fontWeight: 600,
                 color: '#2D3748',
                 fontSize: { xs: '1.25rem', md: '1.5rem' },
                 px: { xs: 2, md: 0 }
               }}>
-                条件に合う施設が見つかりませんでした
+                {t('noResults')}
               </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ 
-                maxWidth: 400, 
+              <Typography variant="body1" color="text.secondary" sx={{
+                maxWidth: 400,
                 mx: 'auto',
                 fontSize: { xs: '0.875rem', md: '1rem' },
                 px: { xs: 2, md: 0 }
               }}>
-                検索条件を変更するか、新しい施設を追加してみてください
+                {t('noResultsSuggestion')}
               </Typography>
             </Box>
           </Fade>
