@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - type: volume
+        source: node_modules
+        target: /app/node_modules
+    ports:
+      - 3200:3200
+    networks:
+      - famPoke_network
+    command: bash -c "yarn && yarn dev"
+volumes:
+  node_modules:
+    name: famPoke_node_modules
+
+networks:
+  famPoke_network:
+    driver: bridge
