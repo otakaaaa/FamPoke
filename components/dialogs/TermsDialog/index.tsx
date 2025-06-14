@@ -184,7 +184,7 @@ export default function TermsDialog({ open, onClose }: TermsDialogProps) {
                 <ListItem key={itemIndex} sx={{ py: 0.5, pl: 0 }}>
                   <ListItemText
                     primary={
-                      <Typography variant="body2\" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                      <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                         • {item}
                       </Typography>
                     }
