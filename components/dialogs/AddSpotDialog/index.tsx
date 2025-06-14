@@ -27,10 +27,12 @@ import { AddSpotFormData, AddSpotDialogProps } from './types'
 import { spotSchema, steps } from './constants'
 import { StepContent } from './StepContent'
 import { SuccessModal } from './SuccessModal'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialogProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const queryClient = useQueryClient()
   
   const [activeStep, setActiveStep] = useState(0)
   const [formData, setFormData] = useState<AddSpotFormData>({
@@ -88,12 +90,13 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
+
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  const handleSubmit = async () => {
-    try {
+  const addSpot = useMutation({
+    mutationFn: async () => {
       setLoading(true)
       setError('')
 
@@ -115,7 +118,6 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
         openingHours: formData.openingHours || undefined
       })
 
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000))
 
       onSuccess()
@@ -143,16 +145,21 @@ export default function AddSpotDialog({ open, onClose, onSuccess }: AddSpotDialo
       // Show success modal instead of alert
       setSuccessModalOpen(true)
 
-    } catch (err: any) {
+      queryClient.invalidateQueries({ queryKey: ['spots'] })
+    },
+    onError: (err: any) => {
       console.error('Error adding spot:', err)
       if (err.errors) {
         setError(err.errors[0].message)
       } else {
         setError(err.message || '施設の追加に失敗しました')
       }
-    } finally {
-      setLoading(false)
-    }
+    },
+    onSettled: () => setLoading(false)
+  })
+
+  const handleSubmit = () => {
+    addSpot.mutate()
   }
 
   const isStepValid = (step: number) => {

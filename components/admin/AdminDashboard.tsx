@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Container,
   Box,
@@ -18,6 +18,7 @@ import { AdminStats } from './AdminStats'
 import { SpotsManagement } from './SpotsManagement'
 import { ReviewsManagement } from './ReviewsManagement'
 import { AdminSettings } from './AdminSettings'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -38,86 +39,94 @@ export default function AdminDashboard() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   
-  const [spots, setSpots] = useState<Spot[]>([])
-  const [reviews, setReviews] = useState<SpotReview[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [tabValue, setTabValue] = useState(0)
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async () => {
-    try {
-      setLoading(true)
-      // Simulate API call
+  const queryClient = useQueryClient()
+  const { data, isLoading: loading, error } = useQuery({
+    queryKey: ['admin-data'],
+    queryFn: async () => {
       await new Promise(resolve => setTimeout(resolve, 800))
-      setSpots([...mockSpots])
-      setReviews([...mockReviews])
-    } catch (err: any) {
-      console.error('Error fetching data:', err)
-      setError('データの取得に失敗しました')
-    } finally {
-      setLoading(false)
+      return { spots: [...mockSpots], reviews: [...mockReviews] }
     }
-  }
+  })
+  const spots = data?.spots ?? []
+  const reviews = data?.reviews ?? []
+  const [tabValue, setTabValue] = useState(0)
+  const [mutationError, setMutationError] = useState('')
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
   }
 
-  const updateSpotVisibility = async (spotId: string, isVisible: boolean) => {
-    try {
+  const updateSpotVisibility = useMutation({
+    mutationFn: async ({ spotId, isVisible }: { spotId: string; isVisible: boolean }) => {
       await new Promise(resolve => setTimeout(resolve, 200))
-      setSpots(prev => prev.map(spot =>
-        spot.id === spotId ? { ...spot, is_visible: isVisible } : spot
-      ))
-    } catch (err: any) {
-      console.error('Error updating spot visibility:', err)
-      setError('施設の公開状態の更新に失敗しました')
-    }
-  }
+      return { spotId, isVisible }
+    },
+    onSuccess: ({ spotId, isVisible }) => {
+      queryClient.setQueryData(['admin-data'], (old: any) => {
+        if (!old) return old
+        return {
+          ...old,
+          spots: old.spots.map((s: Spot) =>
+            s.id === spotId ? { ...s, is_visible: isVisible } : s
+          )
+        }
+      })
+    },
+    onError: () => setMutationError('施設の公開状態の更新に失敗しました')
+  }).mutate
 
-  const updateReviewVisibility = async (reviewId: string, isVisible: boolean) => {
-    try {
+  const updateReviewVisibility = useMutation({
+    mutationFn: async ({ reviewId, isVisible }: { reviewId: string; isVisible: boolean }) => {
       await new Promise(resolve => setTimeout(resolve, 200))
-      setReviews(prev => prev.map(review =>
-        review.id === reviewId ? { ...review, is_visible: isVisible } : review
-      ))
-    } catch (err: any) {
-      console.error('Error updating review visibility:', err)
-      setError('レビューの公開状態の更新に失敗しました')
-    }
-  }
+      return { reviewId, isVisible }
+    },
+    onSuccess: ({ reviewId, isVisible }) => {
+      queryClient.setQueryData(['admin-data'], (old: any) => {
+        if (!old) return old
+        return {
+          ...old,
+          reviews: old.reviews.map((r: SpotReview) =>
+            r.id === reviewId ? { ...r, is_visible: isVisible } : r
+          )
+        }
+      })
+    },
+    onError: () => setMutationError('レビューの公開状態の更新に失敗しました')
+  }).mutate
 
-  const deleteSpot = async (spotId: string) => {
-    if (!confirm('この施設を削除しますか？関連するレビューや画像も削除されます。')) {
-      return
-    }
-
-    try {
+  const deleteSpot = useMutation({
+    mutationFn: async (spotId: string) => {
       await new Promise(resolve => setTimeout(resolve, 500))
-      setSpots(prev => prev.filter(spot => spot.id !== spotId))
-    } catch (err: any) {
-      console.error('Error deleting spot:', err)
-      setError('施設の削除に失敗しました')
-    }
-  }
+      return spotId
+    },
+    onSuccess: (spotId) => {
+      queryClient.setQueryData(['admin-data'], (old: any) => {
+        if (!old) return old
+        return {
+          ...old,
+          spots: old.spots.filter((s: Spot) => s.id !== spotId)
+        }
+      })
+    },
+    onError: () => setMutationError('施設の削除に失敗しました')
+  }).mutate
 
-  const deleteReview = async (reviewId: string) => {
-    if (!confirm('このレビューを削除しますか？')) {
-      return
-    }
-
-    try {
+  const deleteReview = useMutation({
+    mutationFn: async (reviewId: string) => {
       await new Promise(resolve => setTimeout(resolve, 500))
-      setReviews(prev => prev.filter(review => review.id !== reviewId))
-    } catch (err: any) {
-      console.error('Error deleting review:', err)
-      setError('レビューの削除に失敗しました')
-    }
-  }
+      return reviewId
+    },
+    onSuccess: (reviewId) => {
+      queryClient.setQueryData(['admin-data'], (old: any) => {
+        if (!old) return old
+        return {
+          ...old,
+          reviews: old.reviews.filter((r: SpotReview) => r.id !== reviewId)
+        }
+      })
+    },
+    onError: () => setMutationError('レビューの削除に失敗しました')
+  }).mutate
 
   const tabs = [
     { label: 'ダッシュボード', icon: <Dashboard />, value: 0 },
@@ -131,18 +140,18 @@ export default function AdminDashboard() {
       {/* Header */}
       <AdminHeader />
 
-      {error && (
-        <Fade in={!!error}>
-          <Alert 
-            severity="error" 
+      {(error || mutationError) && (
+        <Fade in={!!(error || mutationError)}>
+          <Alert
+            severity="error"
             className="glass"
-            sx={{ 
+            sx={{
               mb: 3,
               borderRadius: 3,
               border: '1px solid rgba(245, 87, 108, 0.2)',
             }}
           >
-            {error}
+            {error ? 'データの取得に失敗しました' : mutationError}
           </Alert>
         </Fade>
       )}
