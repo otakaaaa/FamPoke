@@ -22,6 +22,7 @@ import ContactDialog from '@/components/dialogs/ContactDialog'
 import FaqDialog from '@/components/dialogs/FaqDialog'
 import PrivacyDialog from '@/components/dialogs/PrivacyDialog'
 import TermsDialog from '@/components/dialogs/TermsDialog'
+import { useTranslations } from 'next-intl'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -31,15 +32,17 @@ interface LayoutProps {
   onAddClick?: () => void
 }
 
-export default function Layout({ 
-  children, 
-  title = 'Childcare Finder',
+export default function Layout({
+  children,
+  title,
   showAddButton = false,
   showFilterButton = false,
-  onAddClick 
+  onAddClick
 }: LayoutProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const t = useTranslations('Layout')
+  const pageTitle = title ?? t('title')
   const [, setIsFilterDrawerOpen] = useAtom(isFilterDrawerOpenAtom)
   const [, setSearchQuery] = useAtom(searchQueryAtom)
   const [isMounted, setIsMounted] = useState(false)
@@ -181,7 +184,7 @@ export default function Layout({
                   letterSpacing: '-0.02em',
                 }}
               >
-                {isMobile ? '子育てスポット' : title}
+                {isMobile ? t('shortTitle') : pageTitle}
               </Typography>
             </Box>
 

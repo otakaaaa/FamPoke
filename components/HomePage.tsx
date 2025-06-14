@@ -17,6 +17,7 @@ import {
   useMediaQuery
 } from '@mui/material'
 import { Search, TrendingUp, LocationOn, Star } from '@mui/icons-material'
+import { useTranslations } from 'next-intl'
 import { useAtom } from 'jotai'
 import Layout from '@/components/Layout'
 import SpotCard from '@/components/SpotCard'
@@ -31,6 +32,7 @@ export default function HomePage() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
+  const t = useTranslations('HomePage')
   
   const [spots, setSpots] = useState<Spot[]>([])
   const [loading, setLoading] = useState(true)
@@ -100,7 +102,7 @@ export default function HomePage() {
       setSpots(filteredSpots)
     } catch (err: any) {
       console.error('Error fetching spots:', err)
-      setError('施設の取得に失敗しました')
+      setError(t('fetchError'))
     } finally {
       setLoading(false)
     }
@@ -127,7 +129,7 @@ export default function HomePage() {
 
   return (
     <Layout
-      title="子育てスポット検索"
+      title={t('title')}
       showAddButton
       showFilterButton
       onAddClick={() => setAddDialogOpen(true)}
@@ -150,9 +152,9 @@ export default function HomePage() {
                 px: { xs: 1, sm: 0 },
               }}
             >
-              最高の子育てスポットを
+              {t('heroTitleLine1')}
               <br />
-              見つけよう
+              {t('heroTitleLine2')}
             </Typography>
             <Typography
               variant="h6"
@@ -166,9 +168,7 @@ export default function HomePage() {
                 px: { xs: 2, sm: 0 },
               }}
             >
-              授乳室、おむつ替えスペース、キッズエリアなど、
-              {!isMobile && <br />}
-              子育てに必要な設備が整った施設を簡単に検索できます
+              {t('heroSubtitle')}
             </Typography>
           </Box>
         </Fade>
@@ -200,7 +200,7 @@ export default function HomePage() {
                   {mockSpots.length}+
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                  登録施設数
+                  {t('statsRegistered')}
                 </Typography>
               </Paper>
             </Grid>
@@ -228,7 +228,7 @@ export default function HomePage() {
                   4.8
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                  平均評価
+                  {t('statsRating')}
                 </Typography>
               </Paper>
             </Grid>
@@ -256,7 +256,7 @@ export default function HomePage() {
                   1000+
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
-                  月間利用者数
+                  {t('statsUsers')}
                 </Typography>
               </Paper>
             </Grid>
@@ -268,7 +268,7 @@ export default function HomePage() {
           <Box sx={{ mb: { xs: 3, md: 4 } }}>
             <TextField
               fullWidth
-              placeholder="施設名や住所で検索..."
+              placeholder={t('searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               InputProps={{
@@ -375,7 +375,7 @@ export default function HomePage() {
                 fontSize: { xs: '1.25rem', md: '1.5rem' },
                 px: { xs: 2, md: 0 }
               }}>
-                条件に合う施設が見つかりませんでした
+              {t('noResultsTitle')}
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ 
                 maxWidth: 400, 
@@ -383,7 +383,7 @@ export default function HomePage() {
                 fontSize: { xs: '0.875rem', md: '1rem' },
                 px: { xs: 2, md: 0 }
               }}>
-                検索条件を変更するか、新しい施設を追加してみてください
+                {t('noResultsDescription')}
               </Typography>
             </Box>
           </Fade>

@@ -9,18 +9,22 @@ import {
   useMediaQuery
 } from '@mui/material'
 import { Dashboard } from '@mui/icons-material'
+import { useTranslations } from 'next-intl'
 
 interface AdminHeaderProps {
   title?: string
   subtitle?: string
 }
 
-export function AdminHeader({ 
-  title = "管理ダッシュボード", 
-  subtitle = "子育てスポットとコミュニティの管理" 
+export function AdminHeader({
+  title,
+  subtitle
 }: AdminHeaderProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const t = useTranslations('AdminHeader')
+  const headerTitle = title ?? t('title')
+  const headerSubtitle = subtitle ?? t('subtitle')
 
   return (
     <Fade in={true} timeout={600}>
@@ -55,7 +59,7 @@ export function AdminHeader({
                 mb: 0.5,
               }}
             >
-              {title}
+              {headerTitle}
             </Typography>
             <Typography 
               variant="body1" 
@@ -64,7 +68,7 @@ export function AdminHeader({
                 fontSize: { xs: '0.875rem', md: '1rem' }
               }}
             >
-              {subtitle}
+              {headerSubtitle}
             </Typography>
           </Box>
         </Box>

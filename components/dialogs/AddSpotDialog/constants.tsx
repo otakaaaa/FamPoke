@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material'
 import { categories } from '@/constants/ui/categories'
 import { amenities } from '@/constants/ui/amenities'
+import messages from '@/messages/ja.json'
 
 export const spotSchema = z.object({
   name: z.string().min(1, '施設名は必須です'),
@@ -29,29 +30,29 @@ export const spotSchema = z.object({
 
 export const steps = [
   {
-    label: '基本情報',
+    label: messages.AddSpotDialog.steps.basic,
     icon: <Info />,
-    description: '施設の名前とカテゴリを入力'
+    description: messages.AddSpotDialog.stepDesc.basic
   },
   {
-    label: '場所・時間',
+    label: messages.AddSpotDialog.steps.location,
     icon: <LocationOn />,
-    description: '住所と営業時間を設定'
+    description: messages.AddSpotDialog.stepDesc.location
   },
   {
-    label: '対象年齢',
+    label: messages.AddSpotDialog.steps.age,
     icon: <ChildCare />,
-    description: '利用できる年齢層を指定'
+    description: messages.AddSpotDialog.stepDesc.age
   },
   {
-    label: '設備・サービス',
+    label: messages.AddSpotDialog.steps.amenities,
     icon: <Settings />,
-    description: '利用可能な設備を選択'
+    description: messages.AddSpotDialog.stepDesc.amenities
   },
   {
-    label: '画像・完了',
+    label: messages.AddSpotDialog.steps.images,
     icon: <Image />,
-    description: '写真をアップロードして完了'
+    description: messages.AddSpotDialog.stepDesc.images
   }
 ]
 

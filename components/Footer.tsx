@@ -27,6 +27,7 @@ import {
   ChildCare,
   Home
 } from '@mui/icons-material'
+import { useTranslations } from 'next-intl'
 
 interface FooterProps {
   onSearchClick?: () => void
@@ -37,30 +38,31 @@ interface FooterProps {
 export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: FooterProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const t = useTranslations('Footer')
 
   const currentYear = new Date().getFullYear()
 
   const footerLinks = {
     service: [
-      { 
-        label: '施設を探す', 
-        onClick: onSearchClick, 
-        icon: <LocationOn /> 
+      {
+        label: t('search'),
+        onClick: onSearchClick,
+        icon: <LocationOn />
       },
-      { 
-        label: '施設を投稿', 
-        onClick: onAddSpotClick, 
-        icon: <ChildCare /> 
+      {
+        label: t('post'),
+        onClick: onAddSpotClick,
+        icon: <ChildCare />
       },
     ],
     support: [
-      { label: 'ヘルプ', onClick: () => onHelpClick?.('help'), icon: <Help /> },
-      { label: 'お問い合わせ', onClick: () => onHelpClick?.('contact'), icon: <Email /> },
-      { label: 'よくある質問', onClick: () => onHelpClick?.('faq'), icon: <Info /> },
+      { label: t('help'), onClick: () => onHelpClick?.('help'), icon: <Help /> },
+      { label: t('contact'), onClick: () => onHelpClick?.('contact'), icon: <Email /> },
+      { label: t('faq'), onClick: () => onHelpClick?.('faq'), icon: <Info /> },
     ],
     legal: [
-      { label: 'プライバシーポリシー', onClick: () => onHelpClick?.('privacy'), icon: <Policy /> },
-      { label: '利用規約', onClick: () => onHelpClick?.('terms'), icon: <Security /> },
+      { label: t('privacy'), onClick: () => onHelpClick?.('privacy'), icon: <Policy /> },
+      { label: t('terms'), onClick: () => onHelpClick?.('terms'), icon: <Security /> },
     ]
   }
 
@@ -141,7 +143,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                       textShadow: '0 2px 4px rgba(0,0,0,0.3)',
                     }}
                   >
-                    子育てスポット検索
+                  {t('brandName')}
                   </Typography>
                 </Box>
                 
@@ -155,9 +157,8 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                     textShadow: '0 1px 2px rgba(0,0,0,0.2)',
                   }}
                 >
-                  子育てに必要な設備が整った施設を簡単に検索できるプラットフォーム。
-                  授乳室、おむつ替えスペース、キッズエリアなど、
-                  ママ・パパが安心して利用できる場所を見つけましょう。
+                  {t('brandDescriptionLine1')}
+                  {t('brandDescriptionLine2')}
                 </Typography>
 
                 {/* Contact Info */}
@@ -184,7 +185,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                   textShadow: '0 1px 2px rgba(0,0,0,0.3)',
                 }}
               >
-                サービス
+                {t('sectionService')}
               </Typography>
               <Stack spacing={1.5}>
                 {footerLinks.service.map((link, index) => (
@@ -226,7 +227,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                   textShadow: '0 1px 2px rgba(0,0,0,0.3)',
                 }}
               >
-                サポート
+                {t('sectionSupport')}
               </Typography>
               <Stack spacing={1.5}>
                 {footerLinks.support.map((link, index) => (
@@ -268,7 +269,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                   textShadow: '0 1px 2px rgba(0,0,0,0.3)',
                 }}
               >
-                法的情報
+                {t('sectionLegal')}
               </Typography>
               <Stack spacing={1.5} sx={{ mb: { xs: 3, md: 4 } }}>
                 {footerLinks.legal.map((link, index) => (
@@ -308,7 +309,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                   textShadow: '0 1px 2px rgba(0,0,0,0.3)',
                 }}
               >
-                フォローする
+                {t('sectionFollow')}
               </Typography>
               <Stack direction="row" spacing={1}>
                 {socialLinks.map((social, index) => (
@@ -367,7 +368,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
               gap: 0.5,
             }}
           >
-            © {currentYear} 子育てスポット検索. All rights reserved.
+            {t('copyright', { year: currentYear })}
             <Favorite sx={{ fontSize: 16, color: '#ff6b9d', ml: 0.5 }} />
           </Typography>
 
@@ -387,7 +388,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                 fontSize: { xs: '0.75rem', md: '0.875rem' },
               }}
             >
-              Made with
+              {t('madeWith')}
             </Typography>
             <Favorite sx={{ fontSize: 14, color: '#ff6b9d' }} />
             <Typography
@@ -397,7 +398,7 @@ export default function Footer({ onSearchClick, onAddSpotClick, onHelpClick }: F
                 fontSize: { xs: '0.75rem', md: '0.875rem' },
               }}
             >
-              for families in Japan
+              {t('forFamilies')}
             </Typography>
           </Box>
         </Box>

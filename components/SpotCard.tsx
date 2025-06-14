@@ -31,6 +31,8 @@ import ShareIcon from '@mui/icons-material/Share'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import { Spot } from '@/lib/mockData'
+import { categories, amenities as amenityList } from '@/constants/ui'
+import { useTranslations } from 'next-intl'
 
 interface SpotCardProps {
   spot: Spot
@@ -42,20 +44,14 @@ interface SpotCardProps {
 export default function SpotCard({ spot, imageUrl, onClick, compact = false }: SpotCardProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const t = useTranslations('SpotCard')
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorited, setIsFavorited] = useState(false)
   const [isBookmarked, setIsBookmarked] = useState(false)
 
   const getCategoryLabel = (category: string) => {
-    const labels: Record<string, string> = {
-      park: '公園',
-      cafe: 'カフェ',
-      center: '児童館',
-      mall: 'ショッピングモール',
-      library: '図書館',
-      other: 'その他'
-    }
-    return labels[category] || category
+    const found = categories.find((c) => c.value === category)
+    return found ? found.label : category
   }
 
   const getCategoryColor = (category: string) => {
@@ -71,11 +67,11 @@ export default function SpotCard({ spot, imageUrl, onClick, compact = false }: S
   }
 
   const amenityIcons = [
-    { condition: spot.has_nursing_room, icon: <BabyChangingStation />, label: '授乳室', color: '#ff6b9d' },
-    { condition: spot.has_diaper_space, icon: <ChildCare />, label: 'おむつ替え', color: '#4ecdc4' },
-    { condition: spot.has_kids_space, icon: <Home />, label: 'キッズスペース', color: '#45b7d1' },
-    { condition: spot.has_sink, icon: <LocalLaundryService />, label: '洗面台', color: '#96ceb4' },
-    { condition: spot.has_diaper_trash, icon: <Wc />, label: 'おむつ用ゴミ箱', color: '#feca57' }
+    { condition: spot.has_nursing_room, icon: <BabyChangingStation />, label: amenityList.find(a => a.key === 'hasNursingRoom')!.label, color: '#ff6b9d' },
+    { condition: spot.has_diaper_space, icon: <ChildCare />, label: amenityList.find(a => a.key === 'hasDiaperSpace')!.label, color: '#4ecdc4' },
+    { condition: spot.has_kids_space, icon: <Home />, label: amenityList.find(a => a.key === 'hasKidsSpace')!.label, color: '#45b7d1' },
+    { condition: spot.has_sink, icon: <LocalLaundryService />, label: amenityList.find(a => a.key === 'hasSink')!.label, color: '#96ceb4' },
+    { condition: spot.has_diaper_trash, icon: <Wc />, label: amenityList.find(a => a.key === 'hasDiaperTrash')!.label, color: '#feca57' }
   ]
 
   const availableAmenities = amenityIcons.filter(amenity => amenity.condition)
@@ -193,7 +189,7 @@ export default function SpotCard({ spot, imageUrl, onClick, compact = false }: S
             {/* Action Buttons */}
             <Stack direction="column" spacing={1}>
               {/* Share Button */}
-              <Tooltip title="シェア" arrow>
+              <Tooltip title={t('share')} arrow>
                 <IconButton
                   onClick={(e) => {
                     e.stopPropagation()
@@ -215,7 +211,7 @@ export default function SpotCard({ spot, imageUrl, onClick, compact = false }: S
               </Tooltip>
 
               {/* Bookmark Button */}
-              <Tooltip title={isBookmarked ? 'ブックマーク削除' : 'ブックマーク'} arrow>
+              <Tooltip title={isBookmarked ? t('bookmarkRemove') : t('bookmark')} arrow>
                 <IconButton
                   onClick={(e) => {
                     e.stopPropagation()
@@ -242,7 +238,7 @@ export default function SpotCard({ spot, imageUrl, onClick, compact = false }: S
 
               {/* Google Map Button */}
               {spot.google_map_url && (
-                <Tooltip title="Google Mapで開く" arrow>
+                <Tooltip title={t('openMap')} arrow>
                   <IconButton
                     href={spot.google_map_url}
                     target="_blank"
@@ -323,7 +319,7 @@ export default function SpotCard({ spot, imageUrl, onClick, compact = false }: S
                     textShadow: '0 1px 4px rgba(0,0,0,0.5)',
                   }}
                 >
-                  {spot.target_age_min}歳〜{spot.target_age_max}歳
+                {t('ageRange', { min: spot.target_age_min, max: spot.target_age_max })}
                 </Typography>
               </Box>
 

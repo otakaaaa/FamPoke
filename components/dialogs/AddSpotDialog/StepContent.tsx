@@ -27,6 +27,7 @@ import {
 } from '@mui/icons-material'
 import { StepContentProps } from './types'
 import { categories, amenities } from './constants'
+import { useTranslations } from 'next-intl'
 
 export function StepContent({
   activeStep,
@@ -39,6 +40,7 @@ export function StepContent({
 }: StepContentProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const t = useTranslations('AddSpotDialog.form')
 
   const getStepContent = (step: number) => {
     switch (step) {
@@ -47,12 +49,12 @@ export function StepContent({
           <Fade in={true} timeout={500}>
             <Box sx={{ py: 2 }}>
               <TextField
-                label="施設名"
+                label={t('nameLabel')}
                 required
                 fullWidth
                 value={formData.name}
                 onChange={(e) => onInputChange('name', e.target.value)}
-                placeholder="例: 中央公園、ママカフェひなた"
+                placeholder={t('namePlaceholder')}
                 sx={{ 
                   mb: 4,
                   '& .MuiOutlinedInput-root': {
@@ -86,14 +88,14 @@ export function StepContent({
                 }}
               />
 
-              <FormLabel sx={{ 
-                mb: 3, 
-                display: 'block', 
+              <FormLabel sx={{
+                mb: 3,
+                display: 'block',
                 fontWeight: 700,
                 fontSize: { xs: '1rem', md: '1.1rem' },
                 color: '#2D3748'
               }}>
-                施設カテゴリを選択
+                {t('categoryLabel')}
               </FormLabel>
               
               <Box
@@ -165,12 +167,12 @@ export function StepContent({
           <Fade in={true} timeout={500}>
             <Box sx={{ py: 2 }}>
               <TextField
-                label="住所"
+                label={t('addressLabel')}
                 required
                 fullWidth
                 value={formData.address}
                 onChange={(e) => onInputChange('address', e.target.value)}
-                placeholder="例: 東京都渋谷区神南1-1-1"
+                placeholder={t('addressPlaceholder')}
                 sx={{ 
                   mb: 3,
                   '& .MuiOutlinedInput-root': {
@@ -219,11 +221,11 @@ export function StepContent({
               />
 
               <TextField
-                label="Google Map URL（任意）"
+                label={t('mapLabel')}
                 fullWidth
                 value={formData.googleMapUrl}
                 onChange={(e) => onInputChange('googleMapUrl', e.target.value)}
-                placeholder="https://maps.google.com/..."
+                placeholder={t('mapPlaceholder')}
                 sx={{ 
                   mb: 3,
                   '& .MuiOutlinedInput-root': {
@@ -258,11 +260,11 @@ export function StepContent({
               />
 
               <TextField
-                label="営業時間（任意）"
+                label={t('hoursLabel')}
                 fullWidth
                 value={formData.openingHours}
                 onChange={(e) => onInputChange('openingHours', e.target.value)}
-                placeholder="例: 9:00-17:00、24時間、平日のみ"
+                placeholder={t('hoursPlaceholder')}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     background: 'rgba(255, 255, 255, 0.95)',
@@ -324,7 +326,7 @@ export function StepContent({
                 color: '#2D3748',
                 textAlign: 'center'
               }}>
-                対象年齢: {formData.targetAgeRange[0]}歳 〜 {formData.targetAgeRange[1]}歳
+                {t('ageRange', { min: formData.targetAgeRange[0], max: formData.targetAgeRange[1] })}
               </FormLabel>
               
               <Paper className="glass-card" sx={{ p: { xs: 3, md: 4 }, mb: 3 }}>
@@ -384,7 +386,7 @@ export function StepContent({
                 fontSize: { xs: '1rem', md: '1.1rem' },
                 color: '#2D3748'
               }}>
-                施設タイプ
+                {t('typeLabel')}
               </FormLabel>
               
               <Stack direction={isMobile ? 'column' : 'row'} spacing={2}>
@@ -417,7 +419,7 @@ export function StepContent({
                     color: formData.indoor === true ? '#4facfe' : '#2D3748',
                     fontSize: { xs: '1rem', md: '1.1rem' }
                   }}>
-                    屋内施設
+                    {t('indoor')}
                   </Typography>
                 </Paper>
 
@@ -450,7 +452,7 @@ export function StepContent({
                     color: formData.indoor === false ? '#43e97b' : '#2D3748',
                     fontSize: { xs: '1rem', md: '1.1rem' }
                   }}>
-                    屋外施設
+                    {t('outdoor')}
                   </Typography>
                 </Paper>
               </Stack>
@@ -469,7 +471,7 @@ export function StepContent({
                 fontSize: { xs: '1rem', md: '1.1rem' },
                 color: '#2D3748'
               }}>
-                利用可能な設備・サービス
+                {t('amenitiesLabel')}
               </FormLabel>
               
               <Box
@@ -581,7 +583,7 @@ export function StepContent({
                 fontSize: { xs: '1rem', md: '1.1rem' },
                 color: '#2D3748'
               }}>
-                画像・PDF（最大5つまで、任意）
+                {t('filesLabel')}
               </FormLabel>
               
               <Paper
@@ -600,10 +602,10 @@ export function StepContent({
               >
                 <CloudUpload sx={{ fontSize: { xs: 48, md: 64 }, color: '#667eea', mb: 2 }} />
                 <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-                  ファイルをアップロード
+                  {t('upload')}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                  画像（JPG, PNG）またはPDFファイルを選択してください
+                  {t('uploadDesc')}
                 </Typography>
                 <Button
                   component="label"
@@ -618,7 +620,7 @@ export function StepContent({
                     fontWeight: 600,
                   }}
                 >
-                  ファイルを選択
+                  {t('chooseFile')}
                   <input
                     type="file"
                     hidden
@@ -632,7 +634,7 @@ export function StepContent({
               {selectedFiles.length > 0 && (
                 <Box>
                   <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                    選択されたファイル ({selectedFiles.length}/5)
+                    {t('selectedFiles', { count: selectedFiles.length })}
                   </Typography>
                   <Stack spacing={2}>
                     {selectedFiles.map((file, index) => (

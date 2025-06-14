@@ -18,6 +18,7 @@ import { AdminStats } from './AdminStats'
 import { SpotsManagement } from './SpotsManagement'
 import { ReviewsManagement } from './ReviewsManagement'
 import { AdminSettings } from './AdminSettings'
+import { useTranslations } from 'next-intl'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -37,6 +38,7 @@ function TabPanel(props: TabPanelProps) {
 export default function AdminDashboard() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const t = useTranslations('AdminDashboard')
   
   const [spots, setSpots] = useState<Spot[]>([])
   const [reviews, setReviews] = useState<SpotReview[]>([])
@@ -57,7 +59,7 @@ export default function AdminDashboard() {
       setReviews([...mockReviews])
     } catch (err: any) {
       console.error('Error fetching data:', err)
-      setError('データの取得に失敗しました')
+      setError(t('errorFetch'))
     } finally {
       setLoading(false)
     }
@@ -75,7 +77,7 @@ export default function AdminDashboard() {
       ))
     } catch (err: any) {
       console.error('Error updating spot visibility:', err)
-      setError('施設の公開状態の更新に失敗しました')
+      setError(t('updateSpotVisibilityError'))
     }
   }
 
@@ -87,12 +89,12 @@ export default function AdminDashboard() {
       ))
     } catch (err: any) {
       console.error('Error updating review visibility:', err)
-      setError('レビューの公開状態の更新に失敗しました')
+      setError(t('updateReviewVisibilityError'))
     }
   }
 
   const deleteSpot = async (spotId: string) => {
-    if (!confirm('この施設を削除しますか？関連するレビューや画像も削除されます。')) {
+    if (!confirm(t('confirmDeleteSpot'))) {
       return
     }
 
@@ -101,12 +103,12 @@ export default function AdminDashboard() {
       setSpots(prev => prev.filter(spot => spot.id !== spotId))
     } catch (err: any) {
       console.error('Error deleting spot:', err)
-      setError('施設の削除に失敗しました')
+      setError(t('deleteSpotError'))
     }
   }
 
   const deleteReview = async (reviewId: string) => {
-    if (!confirm('このレビューを削除しますか？')) {
+    if (!confirm(t('confirmDeleteReview'))) {
       return
     }
 
@@ -115,15 +117,15 @@ export default function AdminDashboard() {
       setReviews(prev => prev.filter(review => review.id !== reviewId))
     } catch (err: any) {
       console.error('Error deleting review:', err)
-      setError('レビューの削除に失敗しました')
+      setError(t('deleteReviewError'))
     }
   }
 
   const tabs = [
-    { label: 'ダッシュボード', icon: <Dashboard />, value: 0 },
-    { label: '施設管理', icon: <LocationOn />, value: 1 },
-    { label: 'レビュー管理', icon: <RateReview />, value: 2 },
-    { label: '設定', icon: <Settings />, value: 3 },
+    { label: t('tabs.dashboard'), icon: <Dashboard />, value: 0 },
+    { label: t('tabs.spots'), icon: <LocationOn />, value: 1 },
+    { label: t('tabs.reviews'), icon: <RateReview />, value: 2 },
+    { label: t('tabs.settings'), icon: <Settings />, value: 3 },
   ]
 
   return (

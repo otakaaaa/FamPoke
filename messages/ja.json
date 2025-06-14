@@ -1,0 +1,126 @@
+{
+  "Layout": {
+    "title": "子育てスポット検索",
+    "description": "授乳室や子供向け施設の検索・投稿サービス",
+    "shortTitle": "子育てスポット"
+  },
+  "HomePage": {
+    "title": "子育てスポット検索",
+    "heroTitleLine1": "最高の子育てスポットを",
+    "heroTitleLine2": "見つけよう",
+    "heroSubtitle": "授乳室、おむつ替えスペース、キッズエリアなど、子育てに必要な設備が整った施設を簡単に検索できます",
+    "statsRegistered": "登録施設数",
+    "statsRating": "平均評価",
+    "statsUsers": "月間利用者数",
+    "searchPlaceholder": "施設名や住所で検索...",
+    "fetchError": "施設の取得に失敗しました",
+    "noResultsTitle": "条件に合う施設が見つかりませんでした",
+    "noResultsDescription": "検索条件を変更するか、新しい施設を追加してみてください"
+  },
+  "Footer": {
+    "brandName": "子育てスポット検索",
+    "brandDescriptionLine1": "子育てに必要な設備が整った施設を簡単に検索できるプラットフォーム。",
+    "brandDescriptionLine2": "授乳室、おむつ替えスペース、キッズエリアなど、ママ・パパが安心して利用できる場所を見つけましょう。",
+    "sectionService": "サービス",
+    "sectionSupport": "サポート",
+    "sectionLegal": "法的情報",
+    "sectionFollow": "フォローする",
+    "search": "施設を探す",
+    "post": "施設を投稿",
+    "help": "ヘルプ",
+    "contact": "お問い合わせ",
+    "faq": "よくある質問",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "copyright": "© {year} 子育てスポット検索. All rights reserved.",
+    "madeWith": "Made with",
+    "forFamilies": "for families in Japan"
+  },
+  "SpotCard": {
+    "share": "シェア",
+    "bookmark": "ブックマーク",
+    "bookmarkRemove": "ブックマーク削除",
+    "openMap": "Google Mapで開く",
+    "ageRange": "{min}歳〜{max}歳"
+  },
+  "Categories": {
+    "park": { "label": "公園", "description": "屋外の遊び場や自然スペース" },
+    "cafe": { "label": "カフェ", "description": "親子で楽しめる飲食店" },
+    "center": { "label": "児童館", "description": "子供向けの公共施設" },
+    "mall": { "label": "ショッピングモール", "description": "商業施設・ショッピングセンター" },
+    "library": { "label": "図書館", "description": "本や学習スペースがある施設" },
+    "other": { "label": "その他", "description": "その他の子育て関連施設" }
+  },
+  "Amenities": {
+    "hasNursingRoom": { "label": "授乳室", "description": "プライベートな授乳スペース" },
+    "hasDiaperSpace": { "label": "おむつ替えスペース", "description": "おむつ交換用の設備" },
+    "hasKidsSpace": { "label": "キッズスペース", "description": "子供が遊べる専用エリア" },
+    "hasStrollerSpace": { "label": "ベビーカー置き場", "description": "ベビーカーを安全に置ける場所" },
+    "hasSink": { "label": "洗面台", "description": "手洗いや清潔維持のための設備" },
+    "hasDiaperTrash": { "label": "おむつ用ゴミ箱", "description": "おむつ専用の廃棄場所" }
+  },
+  "AdminHeader": {
+    "title": "管理ダッシュボード",
+    "subtitle": "子育てスポットとコミュニティの管理"
+  },
+  "AddSpotDialog": {
+    "dialogTitle": "新しい施設を追加",
+    "cancel": "キャンセル",
+    "back": "戻る",
+    "next": "次へ",
+    "submit": "投稿完了",
+    "submitting": "投稿中...",
+    "successTitle": "投稿完了！",
+    "successMessage": "施設を投稿しました。管理者の承認後に表示されます。ご協力ありがとうございました！",
+    "steps": {
+      "basic": "基本情報",
+      "location": "場所・時間",
+      "age": "対象年齢",
+      "amenities": "設備・サービス",
+      "images": "画像・完了"
+    },
+    "stepDesc": {
+      "basic": "施設の名前とカテゴリを入力",
+      "location": "住所と営業時間を設定",
+      "age": "利用できる年齢層を指定",
+      "amenities": "利用可能な設備を選択",
+      "images": "写真をアップロードして完了"
+    },
+    "form": {
+      "nameLabel": "施設名",
+      "namePlaceholder": "例: 中央公園、ママカフェひなた",
+      "addressLabel": "住所",
+      "addressPlaceholder": "例: 東京都渋谷区神南1-1-1",
+      "mapLabel": "Google Map URL（任意）",
+      "mapPlaceholder": "https://maps.google.com/...",
+      "hoursLabel": "営業時間（任意）",
+      "hoursPlaceholder": "例: 9:00-17:00、24時間、平日のみ",
+      "categoryLabel": "施設カテゴリを選択",
+      "typeLabel": "施設タイプ",
+      "indoor": "屋内施設",
+      "outdoor": "屋外施設",
+      "amenitiesLabel": "利用可能な設備・サービス",
+      "filesLabel": "画像・PDF（最大5つまで、任意）",
+      "upload": "ファイルをアップロード",
+      "uploadDesc": "画像（JPG, PNG）またはPDFファイルを選択してください",
+      "chooseFile": "ファイルを選択",
+      "selectedFiles": "選択されたファイル ({count}/5)",
+      "ageRange": "対象年齢: {min}歳 〜 {max}歳"
+    }
+  },
+  "AdminDashboard": {
+    "errorFetch": "データの取得に失敗しました",
+    "updateSpotVisibilityError": "施設の公開状態の更新に失敗しました",
+    "updateReviewVisibilityError": "レビューの公開状態の更新に失敗しました",
+    "confirmDeleteSpot": "この施設を削除しますか？関連するレビューや画像も削除されます。",
+    "deleteSpotError": "施設の削除に失敗しました",
+    "confirmDeleteReview": "このレビューを削除しますか？",
+    "deleteReviewError": "レビューの削除に失敗しました",
+    "tabs": {
+      "dashboard": "ダッシュボード",
+      "spots": "施設管理",
+      "reviews": "レビュー管理",
+      "settings": "設定"
+    }
+  }
+}

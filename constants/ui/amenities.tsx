@@ -7,48 +7,49 @@ import {
   Wc,
   DirectionsCar
 } from '@mui/icons-material'
+import messages from '@/messages/ja.json'
 
 export const amenities = [
-  { 
-    key: 'hasNursingRoom' as const, 
-    label: '授乳室', 
-    icon: <BabyChangingStation />, 
+  {
+    key: 'hasNursingRoom' as const,
+    label: messages.Amenities.hasNursingRoom.label,
+    icon: <BabyChangingStation />,
     color: '#ff6b9d',
-    description: 'プライベートな授乳スペース'
+    description: messages.Amenities.hasNursingRoom.description
   },
-  { 
-    key: 'hasDiaperSpace' as const, 
-    label: 'おむつ替えスペース', 
-    icon: <ChildCare />, 
+  {
+    key: 'hasDiaperSpace' as const,
+    label: messages.Amenities.hasDiaperSpace.label,
+    icon: <ChildCare />,
     color: '#4ecdc4',
-    description: 'おむつ交換用の設備'
+    description: messages.Amenities.hasDiaperSpace.description
   },
-  { 
-    key: 'hasKidsSpace' as const, 
-    label: 'キッズスペース', 
-    icon: <Home />, 
+  {
+    key: 'hasKidsSpace' as const,
+    label: messages.Amenities.hasKidsSpace.label,
+    icon: <Home />,
     color: '#45b7d1',
-    description: '子供が遊べる専用エリア'
+    description: messages.Amenities.hasKidsSpace.description
   },
-  { 
-    key: 'hasStrollerSpace' as const, 
-    label: 'ベビーカー置き場', 
-    icon: <DirectionsCar />, 
+  {
+    key: 'hasStrollerSpace' as const,
+    label: messages.Amenities.hasStrollerSpace.label,
+    icon: <DirectionsCar />,
     color: '#96ceb4',
-    description: 'ベビーカーを安全に置ける場所'
+    description: messages.Amenities.hasStrollerSpace.description
   },
-  { 
-    key: 'hasSink' as const, 
-    label: '洗面台', 
-    icon: <LocalLaundryService />, 
+  {
+    key: 'hasSink' as const,
+    label: messages.Amenities.hasSink.label,
+    icon: <LocalLaundryService />,
     color: '#feca57',
-    description: '手洗いや清潔維持のための設備'
+    description: messages.Amenities.hasSink.description
   },
-  { 
-    key: 'hasDiaperTrash' as const, 
-    label: 'おむつ用ゴミ箱', 
-    icon: <Wc />, 
+  {
+    key: 'hasDiaperTrash' as const,
+    label: messages.Amenities.hasDiaperTrash.label,
+    icon: <Wc />,
     color: '#ff9ff3',
-    description: 'おむつ専用の廃棄場所'
+    description: messages.Amenities.hasDiaperTrash.description
   }
 ]
