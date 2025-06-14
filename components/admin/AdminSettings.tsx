@@ -24,6 +24,7 @@ import {
   Save,
   RestartAlt
 } from '@mui/icons-material'
+import { useMutation } from '@tanstack/react-query'
 
 export function AdminSettings() {
   const theme = useTheme()
@@ -44,10 +45,18 @@ export function AdminSettings() {
     setSettings(prev => ({ ...prev, [key]: value }))
   }
 
+  const saveSettings = useMutation({
+    mutationFn: async () => {
+      await new Promise(resolve => setTimeout(resolve, 500))
+    },
+    onSuccess: () => {
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+    }
+  })
+
   const handleSave = () => {
-    // Simulate save
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+    saveSettings.mutate()
   }
 
   const settingSections = [

@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import MuiThemeProvider from './MuiThemeProvider'
+import ReactQueryProvider from './ReactQueryProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <MuiThemeProvider>
-          {children}
-        </MuiThemeProvider>
+        <ReactQueryProvider>
+          <MuiThemeProvider>
+            {children}
+          </MuiThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   )

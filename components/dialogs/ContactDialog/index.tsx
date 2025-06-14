@@ -27,6 +27,7 @@ import {
   ContactSupport,
   CheckCircle
 } from '@mui/icons-material'
+import { useMutation } from '@tanstack/react-query'
 
 interface ContactDialogProps {
   open: boolean
@@ -60,27 +61,20 @@ export default function ContactDialog({ open, onClose }: ContactDialogProps) {
     setError('')
   }
 
-  const handleSubmit = async () => {
-    if (!formData.email || !formData.subject || !formData.message) {
-      setError('すべての必須項目を入力してください')
-      return
-    }
+  const sendMessage = useMutation({
+    mutationFn: async () => {
+      if (!formData.email || !formData.subject || !formData.message) {
+        throw new Error('すべての必須項目を入力してください')
+      }
+      if (!formData.email.includes('@')) {
+        throw new Error('有効なメールアドレスを入力してください')
+      }
 
-    if (!formData.email.includes('@')) {
-      setError('有効なメールアドレスを入力してください')
-      return
-    }
-
-    try {
       setLoading(true)
       setError('')
-
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000))
 
       setSuccess(true)
-      
-      // Reset form after success
       setTimeout(() => {
         setFormData({
           category: 'general',
@@ -91,13 +85,16 @@ export default function ContactDialog({ open, onClose }: ContactDialogProps) {
         setSuccess(false)
         onClose()
       }, 2000)
-
-    } catch (err: any) {
+    },
+    onError: (err: any) => {
       console.error('Error sending message:', err)
-      setError('送信に失敗しました。しばらく後でもう一度お試しください。')
-    } finally {
-      setLoading(false)
-    }
+      setError(err.message || '送信に失敗しました。しばらく後でもう一度お試しください。')
+    },
+    onSettled: () => setLoading(false)
+  })
+
+  const handleSubmit = () => {
+    sendMessage.mutate()
   }
 
   if (success) {

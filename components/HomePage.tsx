@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Container,
   Grid,
@@ -26,85 +26,62 @@ import AddSpotDialog from '@/components/dialogs/AddSpotDialog'
 import SpotDetailDialog from '@/components/dialogs/SpotDetailDialog'
 import { filtersAtom, searchQueryAtom } from '@/lib/atoms'
 import { Spot, mockSpots } from '@/lib/mockData'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function HomePage() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
   
-  const [spots, setSpots] = useState<Spot[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const queryClient = useQueryClient()
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [detailDialogOpen, setDetailDialogOpen] = useState(false)
   const [selectedSpot, setSelectedSpot] = useState<Spot | null>(null)
-  
+
   const [filters] = useAtom(filtersAtom)
   const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom)
 
-  useEffect(() => {
-    fetchSpots()
-  }, [filters])
-
-  const fetchSpots = async () => {
-    try {
-      setLoading(true)
-      setError('')
-
-      // Simulate API call with realistic loading time
+  const { data: spots = [], isLoading: loading, error } = useQuery({
+    queryKey: ['spots', filters],
+    queryFn: async () => {
       await new Promise(resolve => setTimeout(resolve, 1200))
 
       let filteredSpots = mockSpots.filter(spot => spot.is_visible)
 
-      // Apply filters
       if (filters.category.length > 0) {
-        filteredSpots = filteredSpots.filter(spot => 
+        filteredSpots = filteredSpots.filter(spot =>
           filters.category.includes(spot.category)
         )
       }
-
       if (filters.hasNursingRoom === true) {
         filteredSpots = filteredSpots.filter(spot => spot.has_nursing_room)
       }
-
       if (filters.hasDiaperSpace === true) {
         filteredSpots = filteredSpots.filter(spot => spot.has_diaper_space)
       }
-
       if (filters.hasKidsSpace === true) {
         filteredSpots = filteredSpots.filter(spot => spot.has_kids_space)
       }
-
       if (filters.hasStrollerSpace === true) {
         filteredSpots = filteredSpots.filter(spot => spot.has_stroller_space)
       }
-
       if (filters.hasSink === true) {
         filteredSpots = filteredSpots.filter(spot => spot.has_sink)
       }
-
       if (filters.hasDiaperTrash === true) {
         filteredSpots = filteredSpots.filter(spot => spot.has_diaper_trash)
       }
-
       if (filters.indoor !== null) {
         filteredSpots = filteredSpots.filter(spot => spot.indoor === filters.indoor)
       }
-
-      // Age range filter
-      filteredSpots = filteredSpots.filter(spot => 
-        spot.target_age_min <= filters.ageRange[1] && 
+      filteredSpots = filteredSpots.filter(spot =>
+        spot.target_age_min <= filters.ageRange[1] &&
         spot.target_age_max >= filters.ageRange[0]
       )
 
-      setSpots(filteredSpots)
-    } catch (err: any) {
-      console.error('Error fetching spots:', err)
-      setError('施設の取得に失敗しました')
-    } finally {
-      setLoading(false)
+      return filteredSpots
     }
-  }
+  })
 
   const handleSpotClick = (spot: Spot) => {
     setSelectedSpot(spot)
@@ -112,7 +89,7 @@ export default function HomePage() {
   }
 
   const handleAddSuccess = () => {
-    fetchSpots()
+    queryClient.invalidateQueries({ queryKey: ['spots'] })
   }
 
   // Filter spots by search query
@@ -314,8 +291,8 @@ export default function HomePage() {
         {/* Error State */}
         {error && (
           <Fade in={!!error}>
-            <Alert 
-              severity="error" 
+            <Alert
+              severity="error"
               className="glass"
               sx={{ 
                 mb: 3,
@@ -324,7 +301,7 @@ export default function HomePage() {
                 fontSize: { xs: '0.875rem', md: '1rem' },
               }}
             >
-              {error}
+              施設の取得に失敗しました
             </Alert>
           </Fade>
         )}

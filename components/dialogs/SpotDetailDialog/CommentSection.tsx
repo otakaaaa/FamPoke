@@ -17,6 +17,7 @@ import {
 } from '@mui/material'
 import { Send, ThumbUp, ThumbUpOutlined } from '@mui/icons-material'
 import { Spot, SpotReview } from '@/lib/mockData'
+import { useMutation } from '@tanstack/react-query'
 
 interface CommentSectionProps {
   spot: Spot
@@ -31,26 +32,21 @@ export function CommentSection({ spot, reviews }: CommentSectionProps) {
   const [error, setError] = useState('')
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
 
-  const handleSubmitComment = async () => {
-    if (!spot || !newComment.trim()) return
-
-    try {
+  const submitComment = useMutation({
+    mutationFn: async () => {
+      if (!spot || !newComment.trim()) throw new Error()
       setLoading(true)
       setError('')
-
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000))
-
       setNewComment('')
       setError('')
       alert('コメントを投稿しました。管理者の承認後に表示されます。')
-    } catch (err: any) {
-      console.error('Error submitting comment:', err)
-      setError('コメントの投稿に失敗しました')
-    } finally {
-      setLoading(false)
-    }
-  }
+    },
+    onError: () => setError('コメントの投稿に失敗しました'),
+    onSettled: () => setLoading(false)
+  })
+
+  const handleSubmitComment = () => submitComment.mutate()
 
   const handleLikeComment = (reviewId: string) => {
     setLikedComments(prev => {
