@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import MuiThemeProvider from './MuiThemeProvider'
 import ReactQueryProvider from './ReactQueryProvider'
+import { NextIntlClientProvider } from 'next-intl'
+import ja from '../messages/ja.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <ReactQueryProvider>
-          <MuiThemeProvider>
-            {children}
-          </MuiThemeProvider>
-        </ReactQueryProvider>
+        <NextIntlClientProvider locale="ja" messages={ja}>
+          <ReactQueryProvider>
+            <MuiThemeProvider>
+              {children}
+            </MuiThemeProvider>
+          </ReactQueryProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

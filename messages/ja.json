@@ -1,0 +1,29 @@
+{
+  "Home": {
+    "title": "子育てスポット検索",
+    "heroTitle1": "最高の子育てスポットを",
+    "heroTitle2": "見つけよう",
+    "heroDescription": "授乳室、おむつ替えスペース、キッズエリアなど、子育てに必要な設備が整った施設を簡単に検索できます",
+    "statsRegistered": "登録施設数",
+    "statsRating": "平均評価",
+    "statsUsers": "月間利用者数",
+    "searchPlaceholder": "施設名や住所で検索...",
+    "fetchError": "施設の取得に失敗しました",
+    "noResults": "条件に合う施設が見つかりませんでした",
+    "noResultsSuggestion": "検索条件を変更するか、新しい施設を追加してみてください"
+  },
+  "Layout": {
+    "shortTitle": "子育てスポット"
+  },
+  "AddSpot": {
+    "title": "新しい施設を追加",
+    "cancel": "キャンセル",
+    "back": "戻る",
+    "next": "次へ",
+    "posting": "投稿中...",
+    "complete": "投稿完了",
+    "addError": "施設の追加に失敗しました",
+    "successTitle": "投稿完了！",
+    "successMessage": "施設を投稿しました。管理者の承認後に表示されます。ご協力ありがとうございました！"
+  }
+}

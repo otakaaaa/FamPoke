@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import {
   AppBar,
   Toolbar,
@@ -31,13 +32,14 @@ interface LayoutProps {
   onAddClick?: () => void
 }
 
-export default function Layout({ 
-  children, 
+export default function Layout({
+  children,
   title = 'Childcare Finder',
   showAddButton = false,
   showFilterButton = false,
-  onAddClick 
+  onAddClick
 }: LayoutProps) {
+  const t = useTranslations('Layout')
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [, setIsFilterDrawerOpen] = useAtom(isFilterDrawerOpenAtom)
@@ -181,7 +183,7 @@ export default function Layout({
                   letterSpacing: '-0.02em',
                 }}
               >
-                {isMobile ? '子育てスポット' : title}
+                {isMobile ? t('shortTitle') : title}
               </Typography>
             </Box>
 
