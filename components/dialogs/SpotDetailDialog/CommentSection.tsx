@@ -206,7 +206,6 @@ export function CommentSection({ spot, reviews }: CommentSectionProps) {
                     </Typography>
                     <Box sx={{ 
                       display: 'flex', 
-                      alignItems: 'center', 
                       justifyContent: 'space-between',
                       flexDirection: { xs: 'column', sm: 'row' },
                       alignItems: { xs: 'flex-start', sm: 'center' },

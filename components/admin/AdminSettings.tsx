@@ -41,7 +41,7 @@ export function AdminSettings() {
   
   const [saved, setSaved] = useState(false)
 
-  const handleSettingChange = (key: string, value: boolean | string) => {
+  const handleSettingChange = (key: keyof typeof settings, value: boolean | string) => {
     setSettings(prev => ({ ...prev, [key]: value }))
   }
 
@@ -66,13 +66,13 @@ export function AdminSettings() {
       color: '#667eea',
       settings: [
         {
-          key: 'autoApproval',
+          key: 'autoApproval' as keyof typeof settings,
           label: '自動承認',
           description: '新しい投稿を自動的に承認する',
           type: 'switch' as const,
         },
         {
-          key: 'maxFileSize',
+          key: 'maxFileSize' as keyof typeof settings,
           label: '最大ファイルサイズ (MB)',
           description: 'アップロード可能な最大ファイルサイズ',
           type: 'text' as const,
@@ -85,13 +85,13 @@ export function AdminSettings() {
       color: '#f093fb',
       settings: [
         {
-          key: 'emailNotifications',
+          key: 'emailNotifications' as keyof typeof settings,
           label: 'メール通知',
           description: '新しい投稿やレビューの通知を受け取る',
           type: 'switch' as const,
         },
         {
-          key: 'adminEmail',
+          key: 'adminEmail' as keyof typeof settings,
           label: '管理者メールアドレス',
           description: '通知を受け取るメールアドレス',
           type: 'text' as const,
@@ -104,13 +104,13 @@ export function AdminSettings() {
       color: '#43e97b',
       settings: [
         {
-          key: 'maintenanceMode',
+          key: 'maintenanceMode' as keyof typeof settings,
           label: 'メンテナンスモード',
           description: 'サイトをメンテナンスモードにする',
           type: 'switch' as const,
         },
         {
-          key: 'backupEnabled',
+          key: 'backupEnabled' as keyof typeof settings,
           label: '自動バックアップ',
           description: 'データの自動バックアップを有効にする',
           type: 'switch' as const,

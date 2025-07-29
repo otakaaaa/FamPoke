@@ -215,7 +215,7 @@ export default function AdminDashboard() {
         <SpotsManagement
           spots={spots}
           loading={loading}
-          onUpdateVisibility={updateSpotVisibility}
+          onUpdateVisibility={(spotId, isVisible) => updateSpotVisibility({ spotId, isVisible })}
           onDelete={deleteSpot}
         />
       </TabPanel>
@@ -224,7 +224,7 @@ export default function AdminDashboard() {
         <ReviewsManagement
           reviews={reviews}
           loading={loading}
-          onUpdateVisibility={updateReviewVisibility}
+          onUpdateVisibility={(reviewId, isVisible) => updateReviewVisibility({ reviewId, isVisible })}
           onDelete={deleteReview}
         />
       </TabPanel>
